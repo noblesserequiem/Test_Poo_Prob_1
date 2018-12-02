@@ -75,6 +75,7 @@ public:
 	Produs *head;
 	void adaugare(Produs *a);
 	void afisare();
+	void stergere(char *producator);
 };
 void Lista::adaugare(Produs *a)
 {
@@ -128,6 +129,30 @@ public:
 
 	}
 };
+void Lista::stergere(char *producator)
+{
+	Produs *p;
+	Produs *aux;
+	p = head;
+	if (strcmp(head->producator, producator) == 0)
+	{
+		aux = head;
+		head = head->urm;
+		free(aux);
+	}
+	else
+	{
+		while (p->urm != NULL && strcmp(p->urm->producator, producator) != 0)
+			p = p->urm;
+		if (strcmp(p->urm->producator, producator) == 0)
+		{
+			aux = p->urm;
+			p->urm = p->urm->urm;
+			free(aux);
+		}
+	}
+	
+}
 void introducere(Lista &l, int produs)
 {
 	Produs *p;
@@ -201,7 +226,7 @@ int main()
 	Lista l;
 	l.head = NULL;
 	int opt;
-	cout << "1.Introducere Rama\n2.Introducere Aparat\n3.Afisare\n5.Exit\n";
+	cout << "1.Introducere Rama\n2.Introducere Aparat\n3.Afisare\n4.Sterge producator\n5.Exit\n";
 	do {
 		cin >> opt;
 		switch(opt)
@@ -219,6 +244,13 @@ int main()
 		case 3:
 		{
 			l.afisare();
+			break;
+		}
+		case 4:
+		{
+			char producator[30];
+			cin >> producator;
+			l.stergere(producator);
 			break;
 		}
 		case 5:
